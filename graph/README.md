@@ -30,6 +30,8 @@ O((E+V)logV)
 ##### 使用例
 [AtCoder ABC012 D バスと避けられない運命](https://beta.atcoder.jp/contests/abc012/submissions/3187768)
 
+[AtCoder ARC064 E Cosmic Rays](https://beta.atcoder.jp/contests/arc064/submissions/3196615)
+
 ### Bellman Ford
 コストに負数があっても対応できる。N-1回の更新で全てのノードに着く最小コストが計算できる。
 ただし、延々とコストが小さくなるループが存在するときは更新が終わらず、これも検知することができる。
