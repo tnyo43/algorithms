@@ -2,7 +2,13 @@
 競技プログラミング用のアルゴリズムをまとめる
 
 # データ構造
+### Union Find
 - [Union Find](https://github.com/tnyo43/algorithms/blob/master/DataStructure/union-find.cpp)
+- [重み付きUnion Find](https://github.com/tnyo43/algorithms/blob/master/DataStructure/potential-union-find.cpp)
+
+### Segment Tree
+- [Segment Tree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/segment-tree.cpp)
+- [RMQ](https://github.com/tnyo43/algorithms/blob/master/DataStructure/rmq.cpp)
 
 # Graph
 
