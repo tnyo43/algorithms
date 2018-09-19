@@ -10,6 +10,9 @@
 - [Segment Tree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/segment-tree.cpp)
 - [RMQ](https://github.com/tnyo43/algorithms/blob/master/DataStructure/rmq.cpp)
 
+### Others
+- [LCA](https://github.com/tnyo43/algorithms/blob/master/DataStructure/lca.cpp)
+
 # Graph
 
 ### 最短路
