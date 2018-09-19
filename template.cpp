@@ -34,7 +34,7 @@ const int MAX = 1e5;
 
 int main() {
 
-  cout >> "This is a Template" << endl;
+  cout << "This is a Template" << endl;
   return 0;
 
 }
