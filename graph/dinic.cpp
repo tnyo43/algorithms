@@ -48,7 +48,7 @@ int iter[MAX];
 void add_edge(int from, int to, ll cap) { /// from-to間の流量をcapで設定、お互いにアクセス可能にする
   Edge e1, e2;
   e1.to = to; e1.cap = cap; e1.rev = (int)(G[to].size()); 
-  e2.to = from; e2.cap = cap; e2.rev = (int)(G[from].size()); 
+  e2.to = from; e2.cap = 0; e2.rev = (int)(G[from].size());
   G[from].push_back(e1);
   G[to].push_back(e2);
 }
