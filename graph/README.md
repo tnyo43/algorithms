@@ -76,3 +76,17 @@ O(EV^2)
 [AtCoder ABC010 D 浮気予防](https://beta.atcoder.jp/contests/abc010/submissions/3196255)
 
 [AtCoder ARC085 E MUL](https://arc085.contest.atcoder.jp/submissions/3233047)
+
+# グラフ理論
+
+### 二部グラフ判定
+ネットワークがに部グラフかどうかを判定する。DFSを用いて判定する。二部グラフでないときは-1、二部グラフのときは片方のグループのノード数を返すので、他方は全体から引くことで得られる。
+
+##### 計算量
+- V：ノードの数
+
+O(V)
+
+##### 使用例
+[AtCoder CODE FESTIVAL 2017 qualB C 3-Steps](https://beta.atcoder.jp/contests/code-festival-2017-qualb/submissions/3312936)
+
