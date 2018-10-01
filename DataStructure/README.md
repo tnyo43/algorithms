@@ -44,7 +44,7 @@ O(logN)
 
 
 ### RMQ
-Request Minimum Query。Segment Treeを用いて区間の最小の値をO(logN)で計算できる。
+Range Minimum Query。Segment Treeを用いて区間の最小の値をO(logN)で計算できる。
 ##### 計算量
 - N：ノード数
 
