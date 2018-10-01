@@ -24,3 +24,7 @@
 ### 最大流量
 - [Ford Fulkerson法](https://github.com/tnyo43/algorithms/blob/master/graph/ford-fulkerson.cpp)
 - [Dinic法](https://github.com/tnyo43/algorithms/blob/master/graph/dinic.cpp)
+
+## グラフ理論
+- [二部グラフ判定](https://github.com/tnyo43/algorithms/blob/master/graph/bipartite-graph.cpp)
+- [ループ検出](https://github.com/tnyo43/algorithms/blob/master/graph/floyd-circle-find.cpp)

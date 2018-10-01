@@ -90,3 +90,13 @@ O(V)
 ##### 使用例
 [AtCoder CODE FESTIVAL 2017 qualB C 3-Steps](https://beta.atcoder.jp/contests/code-festival-2017-qualb/submissions/3312936)
 
+### ループ検出
+ループを含む有向グラフのループが発生する箇所とループの長さを求める。2つのアクタ（うさぎと亀）はそれぞれ速度2、1で動かし、衝突する場所を探す。また、ループを一周してその場所に戻るまでのステップ数でループの長さがわかる
+
+##### 計算量
+- V：ノード数
+
+O(V)
+
+##### 使用例
+[AtCoder ABC030 D へんてこ辞書](https://beta.atcoder.jp/contests/abc030/submissions/3314993)
