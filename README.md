@@ -28,3 +28,7 @@
 ## グラフ理論
 - [二部グラフ判定](https://github.com/tnyo43/algorithms/blob/master/graph/bipartite-graph.cpp)
 - [ループ検出](https://github.com/tnyo43/algorithms/blob/master/graph/floyd-circle-find.cpp)
+
+# 数学問題
+- [階乗、逆元、nCk、nHk](https://github.com/tnyo43/algorithms/blob/master/math/mod.cpp)
+- [フィボナッチ数列](https://github.com/tnyo43/algorithms/blob/master/math/fibonacci.cpp)
