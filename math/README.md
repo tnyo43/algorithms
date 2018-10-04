@@ -32,7 +32,41 @@ O(1)
 
 O(logN)
 
+##### 検証
+[AOJ フィボナッチ数列](http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_10_A&lang=jp)
+
+## 最大公約数・最小公倍数
+
+### 最大公約数（ユークリッドの互除法）
+ユークリッドの互除法を用いて最大公約数を求める。除数を剰余で割った剰余を...と繰り返し、高速で求められる。
+
+##### 計算量
+- N, M：最大公約数を求めたい数の組
+
+O(log(min(N, M)))
+
 ##### 使用例
-なし（たぶんあってる）
 
+[AtCoder ABC 109 C スキップ](https://beta.atcoder.jp/contests/abc109/submissions/me)
 
+### 最小公倍数
+最大公約数を用いて最小公倍数を求める。二つの整数a,bとその最大公約数gについて、a,bの最小公倍数はab/gになる。最後の計算はO(1)なので、全体の計算量は最大公倍数を求めるO(log(min(N,M)))。
+
+##### 計算量
+- N, M：最小公倍数を求めたい数の組
+
+O(log(min(N, M)))
+
+##### 使用例
+[AtCoder ABC070 C Multiple Clocks](https://beta.atcoder.jp/contests/abc070/submissions/3329136)
+
+### 拡張ユークリッドの互除法
+ユークリッドの互除法を応用して、二つの整数a,bとその最大公約数gについて"ax + by = g"なるxとyを求める。
+
+##### 計算量
+- N, M：最大公約数を求めたい数の組
+
+O(log(min(N, M)))
+
+##### 検証
+[AOJ 拡張ユークリッドの互除法](http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_E&lang=jp)
