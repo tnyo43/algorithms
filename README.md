@@ -32,3 +32,13 @@
 # 数学問題
 - [階乗、逆元、nCk、nHk](https://github.com/tnyo43/algorithms/blob/master/math/mod.cpp)
 - [フィボナッチ数列](https://github.com/tnyo43/algorithms/blob/master/math/fibonacci.cpp)
+
+### 最大公約数・最小公倍数
+- [最大公約数](https://github.com/tnyo43/algorithms/blob/master/math/gcd.cpp)
+- [最小公倍数](https://github.com/tnyo43/algorithms/blob/master/math/lcm.cpp)
+- [拡張ユークリッドの互除法](https://github.com/tnyo43/algorithms/blob/master/math/ex-gcd.cpp)
+
+### 素数
+- [素数判定](https://github.com/tnyo43/algorithms/blob/master/math/is-prime.cpp)
+- [素因数分解](https://github.com/tnyo43/algorithms/blob/master/math/factorization.cpp)
+- [エラトステネスの篩](https://github.com/tnyo43/algorithms/blob/master/math/eratosthenes.cpp)
