@@ -70,3 +70,38 @@ O(log(min(N, M)))
 
 ##### 検証
 [AOJ 拡張ユークリッドの互除法](http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_E&lang=jp)
+
+
+## 素数
+### 素数判定
+Nが素数かどうかをsqrt(N)までチェックすることで確かめる。申し訳程度に偶数の判定を先にしてあるのでちょっと効率化したが、そんなに変わらなさそう。最適化をするかも（あまり必要性を感じないが）
+
+##### 計算量
+- N；判定したい整数
+
+O(sqrt(N))
+
+##### 使用例
+[AtCoder ARC017 A 素数、コンテスト、素数](https://beta.atcoder.jp/contests/arc017/submissions/3329239)
+
+### 素因数分解
+与えられた数を素因数分解する。<素因数、個数>のpairのvectorを返す。与えられたNの平方根まで数を確認しながら、因数に持つならその数で割れる回数をカウントする。
+
+##### 計算量
+- N：素因数分解したい数
+
+O(sqrt(N)logN)
+
+##### 使用例
+[AtCoder ABC096 D Five, Five Everywhere](https://beta.atcoder.jp/contests/abc096/submissions/3334354)
+
+### エラトステネスの篩
+素数の表を作成する。最大値Nのsqrt(N)まで素数か否かを判定する。最適化してないのでO(NloglogN)よりちょっと大きい
+
+##### 計算量
+- N：求めたい素数の最大値
+
+O(Nloglog(N))
+
+##### 使用例
+[AtCoder ABC096 D Five, Five Everywhere](https://beta.atcoder.jp/contests/abc096/submissions/3334354)
