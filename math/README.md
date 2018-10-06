@@ -92,6 +92,18 @@ O(sqrt(N))
 
 O(sqrt(N)logN)
 
+### 約数
+ある数字の約数を列挙する。素因数分解し、各要素の出現数の組み合わせを全通り計算する。最後にソートして昇順にする。最後にソートするが、そもそも要素の数がlogNくらいに小さくなるので、素因数分解の計算が一番時間がかかる（と思う）
+
+##### 計算量
+- N：約数を求めたい数
+
+O(sqrt(N)logN)
+
+##### 使用例
+[AtCoder ABC 112 D Partition](https://beta.atcoder.jp/contests/abc112/submissions/3355926)
+
+
 ##### 使用例
 [AtCoder ABC096 D Five, Five Everywhere](https://beta.atcoder.jp/contests/abc096/submissions/3334354)
 

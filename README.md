@@ -41,4 +41,5 @@
 ### 素数
 - [素数判定](https://github.com/tnyo43/algorithms/blob/master/math/is-prime.cpp)
 - [素因数分解](https://github.com/tnyo43/algorithms/blob/master/math/factorization.cpp)
+- [約数](https://github.com/tnyo43/algorithms/blob/master/math/factors.cpp)
 - [エラトステネスの篩](https://github.com/tnyo43/algorithms/blob/master/math/eratosthenes.cpp)

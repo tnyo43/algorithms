@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -22,12 +24,26 @@ vector<pair<ll, ll>> factorize(ll N) {
   return res;
 }
 
+vl getFactors(ll N) {
+  vector<pair<ll, ll>> f = factorize(N);
+  vl res;
+  res.push_back(1);
+  for (int i = 0; i < f.size(); i++) {
+    int s = res.size();
+    for (int j = 0; j < s; j++) for (int k = 0; k < f[i].second; k++) {
+      res.push_back(res[j]*pow(f[i].first, k+1));
+    }
+  }
+  sort(res.begin(), res.end());
+  return res;
+}
+
 int main() {
   ll N;
   cin >> N;
-  vector<pair<ll, ll>> res = factorize(N);
-  for (int i = 0; i < res.size(); i++) {
-    cout << res[i].first << ":" << res[i].second << endl;
-  }
+  vl factors = getFactors(N);
+  cout << "factors of " << N << ": ";
+  for (int i = 0; i < factors.size(); i++) cout << factors[i] << " ";
+  cout << endl;
   return 0;
 }
