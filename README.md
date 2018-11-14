@@ -10,6 +10,11 @@
 - [Segment Tree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/segment-tree.cpp)
 - [RMQ](https://github.com/tnyo43/algorithms/blob/master/DataStructure/rmq.cpp)
 
+### BIT
+- [BIT 部分和](https://github.com/tnyo43/algorithms/blob/master/DataStructure/BIT-sum.cpp)
+- [BIT 最大値](https://github.com/tnyo43/algorithms/blob/master/DataStructure/BIT-max.cpp)
+- [転倒数](https://github.com/tnyo43/algorithms/blob/master/DataStructure/inversion.cpp)
+
 ### Others
 - [LCA](https://github.com/tnyo43/algorithms/blob/master/DataStructure/lca.cpp)
 
