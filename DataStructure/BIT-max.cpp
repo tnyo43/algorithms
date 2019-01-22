@@ -10,7 +10,9 @@ struct BIT {
   int N;
 
   BIT(int n) {
-    N = n;
+    N = 1;
+    while (N < n) N *= 2;
+
     data = vector<ll>(N+1);
   }
 
