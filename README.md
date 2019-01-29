@@ -48,3 +48,7 @@
 - [素因数分解](https://github.com/tnyo43/algorithms/blob/master/math/factorization.cpp)
 - [約数](https://github.com/tnyo43/algorithms/blob/master/math/factors.cpp)
 - [エラトステネスの篩](https://github.com/tnyo43/algorithms/blob/master/math/eratosthenes.cpp)
+
+#string
+
+- [Suffix Array](https://github.com/tnyo43/algorithms/blob/master/string/suffix-array.cpp)
