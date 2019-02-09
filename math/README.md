@@ -117,3 +117,11 @@ O(Nloglog(N))
 
 ##### 使用例
 [AtCoder ABC096 D Five, Five Everywhere](https://beta.atcoder.jp/contests/abc096/submissions/3334354)
+
+### Baby-Step Giant-Step
+離散対数問題を解くアルゴリズム。とくに、g^x = y mod pを解く
+
+##### 計算量
+- p：法をとる素数
+
+O(sqrt(p)log p)
