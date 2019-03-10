@@ -49,6 +49,8 @@
 - [約数](https://github.com/tnyo43/algorithms/blob/master/math/factors.cpp)
 - [エラトステネスの篩](https://github.com/tnyo43/algorithms/blob/master/math/eratosthenes.cpp)
 - [Baby-Step_Giant-Step](https://github.com/tnyo43/algorithms/blob/master/math/baby-step-giant-step.cpp)
+
 #string
 
 - [Suffix Array](https://github.com/tnyo43/algorithms/blob/master/string/suffix-array.cpp)
+- [Manachar](https://github.com/tnyo43/algorithms/blob/master/string/manacher.cpp)
