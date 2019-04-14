@@ -37,6 +37,7 @@
 # 数学問題
 - [階乗、逆元、nCk、nHk](https://github.com/tnyo43/algorithms/blob/master/math/mod.cpp)
 - [フィボナッチ数列](https://github.com/tnyo43/algorithms/blob/master/math/fibonacci.cpp)
+- [スターリング数](https://github.com/tnyo43/algorithms/blob/master/math/stirling-number.cpp)
 
 ### 最大公約数・最小公倍数
 - [最大公約数](https://github.com/tnyo43/algorithms/blob/master/math/gcd.cpp)

@@ -35,6 +35,24 @@ O(logN)
 ##### 検証
 [AOJ フィボナッチ数列](http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_10_A&lang=jp)
 
+### スターリング数　
+n個の区別できるボールをk個の箱に入れる場合の数、ただしそれぞれの箱に1つ以上のボールを入れる。ような数
+
+##### 計算量
+- N：組み合わせを考えたい数の上限
+- n：ボールの数
+- k；箱の数
+
+###### 初期化
+O(N)
+
+###### クエリ
+O(klogN)
+
+##### 使用例
+[yukicoder No.391 CODING WAR](https://yukicoder.me/submissions/338760)
+
+
 ## 最大公約数・最小公倍数
 
 ### 最大公約数（ユークリッドの互除法）
