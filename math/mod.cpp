@@ -35,6 +35,20 @@ ll nHk (int n, int k) {
     return nCk(n-1+k, n-1);
 }
 
+int pow_(ll n, ll k) {
+    ll res = 1;
+    while (k) {
+        if (k&1) res = (res * n) % MOD;
+        n = n * n % MOD;
+        k >>= 1;
+    }
+    return res;
+}
+
+int inv(int n) {
+    return pow_(n, MOD-2);
+}
+
 int main() {
 
     init();
