@@ -1,40 +1,24 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <string>
-#include <queue>
-#include <stack>
-#include <math.h>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
 typedef long double ld;
-typedef pair<int, int> ii;
-typedef pair<ll, ll> P;
-typedef vector<int> vi;
+typedef pair<ll, ll> ii;
+typedef tuple<ll, ll, ll> iii;
+typedef vector<ll> vi;
+typedef vector<ii> vii;
+typedef vector<iii> viii;
 typedef vector<vi> vvi;
-
-#define REP(i, n) for (ll i = 0; i < (n); ++i)
-#define REPR(i, n) for (ll i = (n) - 1; i >= 0; --i)
-#define FOR(i, n, m) for (ll i = (n); i < (m); ++i)
-#define FORR(i, n, m) for (ll i = (m) - 1; i >= (n); --i) 
-#define FORE(x, xs) for (auto &x: (xs))
+typedef vector<vii> vvii;
+#define REP(i,n) for (ll i = 0; i < n; ++i)
+#define REPR(i,n) for (ll i = n-1; i >= 0; --i)
+#define FOR(i,m,n) for (ll i = m; i < n; ++i)
+#define FORR(i,m,n) for (ll i = n-1; i >= m; --i)
+#define FORE(x,xs) for (const auto& x : xs)
 #define ALL(v) v.begin(), v.end()
-#define ZERO(a) memset(a,0,sizeof(a))
-
-const int INF = 1000000009;
-const int MOD = 1000000007;
-const double EPS = 1e-14;
-const double PI = acos(-1);
-
-const int MAX = 1e5;
-
+#define CHMIN(x,y) x = min(x, y)
+#define CHMAX(x,y) x = max(x, y)
 
 int main() {
-
-  cout << "This is a Template" << endl;
-  return 0;
-
+  
 }
