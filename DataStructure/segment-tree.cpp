@@ -1,92 +1,79 @@
-#include <iostream>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
-typedef vector<int> vi;
-
-#define REP(i,n) for (ll i = 0; i < n; ++i)
-#define REPR(i,n) for (ll i = n - 1; i >= 0; --i)
-#define FOR(i,n,m) for (ll i = n; i < m; ++i)
-
-const int MAX = 1e5;
-
-int N = 2e5+1;
-vi node(N);
-
-struct SegmentTree {
+enum QUERY_GET { SUM, MAXIMUM, MINIMUM };
+template <class T = int>
+class SegmentTree {
 private:
-    int n;
-    vi node;
-
-    int merge(int i) {
-        node[i] = node[2*i+1] + node[2*i+2]; // 親は二つの子の和 
+    int ARY_SIZE;
+    T initVal;
+    std::vector<T> ary;
+    std::function<T(T&, T&)> merge;
+ 
+    void init(int n, QUERY_GET qtype) {
+        switch (qtype) {
+        case SUM:
+            initVal = 0;
+            merge = [](T& l, T& r) {return l + r; };
+            break;
+        case MAXIMUM:
+            initVal = std::numeric_limits<T>::lowest();
+            merge = [](T& l, T& r) {return (l > r) ? l : r; };
+            break;
+        case MINIMUM:
+            initVal = std::numeric_limits<T>::max();
+            merge = [](T& l, T& r) {return (l < r) ? l : r; };
+            break;
+        default: struct INVALID_QUERY_TYPE_ERROR {}; throw INVALID_QUERY_TYPE_ERROR(); break;
+        }
+        init(n);
     }
-
-    int sumRange(int i, int j, int idx, int left, int right) {
-        if (i == left && j == right) // 探索終了、親を返す
-        return node[idx];
-
-
-        // 探索範囲を小さくできないか、中心を基準にして判定
-        int mid = (left+right)/2;
-
-        if (j <= mid) // 左半分で全てが得られる
-        return sumRange(i, j, idx*2+1, left, mid);
-        if (i > mid) // 右半分で全てが得られる
-        return sumRange(i, j, idx*2+2, mid, right);
-
-        // 探索範囲がmidの左右に存在するときは、midで分割してそれぞれの話を返す
-        return sumRange(i, mid, idx*2+1, left, mid) + sumRange(mid, j, idx*2+2, mid, right);
+    void init(int n) {
+        while (ARY_SIZE < n) ARY_SIZE <<= 1;
+        ary.resize(ARY_SIZE << 1, initVal);
     }
-
 public:
-    SegmentTree(vi v) {
-        int size = v.size();
-        n = 1;
-        while (n < size) n <<= 1;
-        node.resize(2*n-1, 0);
-
-        REP (i, size) node[i+n-1] = v[i];
-        REPR (i, n-1) merge(i);
+    SegmentTree() {}
+    SegmentTree(int n, QUERY_GET qtype) : ARY_SIZE(1) { init(n, qtype); }
+    SegmentTree(int n, T initVal, std::function<T(T&, T&)> f) : ARY_SIZE(1), initVal(initVal), merge(f) { init(n); }
+ 
+    inline void update(int i, T val) {
+        i += ARY_SIZE;
+        ary[i] = val;
+        while (i > 1) {
+            i >>= 1;
+            ary[i] = merge(ary[i << 1], ary[(i << 1) + 1]);
+        }
     }
 
-    int get(int i) { // 配列のi番目の要素を取得
-        return node[i+n-1];
+    inline void add(int i, T val) {
+        update(i, ary[i + ARY_SIZE] + val);
     }
 
-    void update(int i, int x) { // i番目の要素をxに変更
-        i += n-1;
-        node[i] = x;
-        while (i > 0) merge(i=(i-1)/2);
+    inline T query(int l, int r) {
+        if (l >= r) return initVal;
+        T vl = initVal, vr = initVal;
+        for (l += ARY_SIZE, r += ARY_SIZE; l != r; l >>= 1, r >>= 1) {
+            if (l & 1) vl = merge(vl, ary[l++]);
+            if (r & 1) vr = merge(ary[--r], vr);
+        }
+        return merge(vl, vr);
     }
 
-    int sumRange(int i, int j) { // [i, j)の和を返す
-        return sumRange(i, j, 0, 0, n);
+    T operator[](int i) { return ary[i + ARY_SIZE]; }
+ 
+    void debugShow() {
+        for (int i = ARY_SIZE; i < ARY_SIZE << 1; ++i) std::cerr << ary[i] << " ";
+        std::cerr << "\n";
     }
 };
 
+int N;
+SegmentTree<int> tree_sum, tree_max, tree_min;
+
 int main() {
-
-    SegmentTree tree(node);
-    int Q;
-    cin >> Q;
-    REP (q, Q) {
-        int t, x;
-        cin >> t >> x;
-        if (t == 1) tree.update(x, tree.get(x)+1);
-        else {
-        int lo = 0, hi = N+1;
-        while (hi-lo > 1) {
-            int mid = (hi+lo)/2;
-            if (tree.sumRange(0, mid) >= x) hi = mid;
-            else lo = mid;
-        }
-        cout << lo << endl;
-        tree.update(lo, tree.get(lo)-1);
-        }
-    }
-    return 0;
-
+    cin >> N;
+    tree_min = SegmentTree<int>(N, MINIMUM);
+    tree_max = SegmentTree<int>(N, MAXIMUM);
+    tree_sum = SegmentTree<int>(N, SUM);
 }
