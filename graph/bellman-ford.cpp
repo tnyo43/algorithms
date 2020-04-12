@@ -1,45 +1,75 @@
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
-
+typedef pair<ll, ll> ii;
+typedef vector<ll> vi;
+typedef vector<ii> vii;
+typedef vector<vii> vvii;
 #define REP(i,n) for (ll i = 0; i < n; ++i)
+#define FORE(x,xs) for (const auto& x : xs)
+#define CHMIN(x,y) x = min(x, y)
 
-const ll INF = 1e17;
-const int NMAX = 1e5; // 最大頂点数
-const int MMAX = 1e5; // 最大辺
+const ll INF = 1ll<<61;
 
-ll N, M; // N:頂点数、M:辺の数
+struct BellmanFord {
+private:
+    int N;
+    vvii E;
 
-int a[MMAX], b[MMAX], c[MMAX];
-ll dist[NMAX]; // dist[j]は注目する頂点kからの最短距離、特にdist[k]=0
+    void init(int n) {
+        E.resize(0); E.clear();
+        N = n; E.resize(n);
+    }
 
+public:
+    BellmanFord() {}
+    BellmanFord(int n) { init(n); }
 
-bool bellman_ford(int s) { // 負の閉路があるときtrueを返す
-    fill_n(dist, N, INF);
-    dist[s] = 0;
-    REP (loop, N-1) {
-        REP (m, M) {
-        if (dist[a[m]] == INF) continue; // まだdist[a[i]]にたどり着いていないので考慮しない
-        dist[b[m]] = min(dist[b[m]], dist[a[m]] + c[m]);
+    void add(int from, int to, int cost) {
+        E[from].push_back(ii(to, cost));
+    }
+
+    vi solve(int s) {
+        vi ret(N, INF);
+        ret[s] = 0;
+        REP (rep, N-1) {
+            REP (n, N) if (ret[n] < INF) FORE (e, E[n]) {
+                CHMIN(ret[e.first], ret[n] + e.second);
+            }
         }
+
+        vector<bool> isInf(N);
+        REP (rep, N) {
+            REP (n, N) if (ret[n] < INF) FORE (e, E[n]) {
+                if (isInf[n] || ret[e.first] > ret[n] + e.second) {
+                    isInf[e.first] = true;
+                }
+            }
+        }
+
+        REP (i, N) if (isInf[i]) ret[i] = -INF;
+
+        return ret;
+    }
+};
+
+ll N;
+vii edges[1000];
+
+ll main() {
+    BellmanFord bf(N);
+    REP (i, N) FORE (e, edges[i]) {
+        bf.add(i, e.first, e.second);
     }
 
-    REP (m, M) if (dist[b[m]] > dist[a[m]] + c[m]) return true;
-    return false;
-}
-
-int main() {
-    cin >> N >> M;
-    REP (i, M) {
-        cin >> a[i] >> b[i] >> c[i];
-        a[i]--;
-        b[i]--;
+    int s = 0;
+    vi res = bf.solve(s);
+    cout << "distance from " << s << "\n";
+    REP (i, N) {
+        cout << i << ", ";;
+        if (res[i] == -INF) cout << "-INF";
+        else cout << res[i];
+        cout << endl;
     }
-
-    if (bellman_ford(0)) cout << "has loop" << endl;
-    cout << dist[N-1] << endl;
-
-    return 0;
 }
