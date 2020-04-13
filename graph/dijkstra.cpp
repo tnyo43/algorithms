@@ -1,61 +1,95 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <tuple>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> ii;
+typedef pair<ll, ll> ii;
+typedef vector<ll> vi;
 typedef vector<ii> vii;
-
+typedef vector<vii> vvii;
 #define REP(i,n) for (ll i = 0; i < n; ++i)
-#define FORE(x,xs) for (auto &x: xs)
+#define FORE(x,xs) for (const auto& x : xs)
 
-const int INF = 1000000009;
 
-const int MAX = 1e5; // 最大頂点数
+const ll INF = 1ll<<61;
 
-ll N, M; // N:頂点数、M:辺の数
+template<typename T> using min_priority_queue = priority_queue<T, vector<T>, greater<T>>;
 
-vii G[MAX]; // G[i]は頂点iから出る辺、<行き先、距離>
-int dist[MAX]; // dist[j]は注目する頂点kからの最短距離、特にdist[k]=0
+class Dijkstra {
+private:
+    int N;
+    vvii E;
 
-void dijkstra(int s) { // sは始点
-    fill_n(dist, N, INF);
-    priority_queue<ii> q;
-    q.push(make_pair(0, s)); // queueは距離、始点の順で使う。大きい方が優先されるので、距離は負の値で扱う
-    while (!q.empty()) {
-        int t, d; // t:終点、d:始点からtまでの距離
-        tie(d, t) = q.top(); q.pop();
-        if (dist[t] != INF) continue;
-        dist[t] = -d;
-        FORE (e, G[t]) {
-        q.push(make_pair(d-e.second, e.first));
+    void init(int n) {
+        E.resize(0); E.clear();
+        N = n; E.resize(n);
+    }
+
+public:
+    Dijkstra() {}
+    Dijkstra(int n) { init(n); }
+
+    void add(int from, int to, int cost) {
+        E[from].push_back(ii(to, cost));
+    }
+
+
+    vi solve(int s) {
+        vi dis(N, INF);
+        vector<bool> vis(N);
+        dis[s] = 0;
+
+        min_priority_queue<ii> q;
+        q.push(ii(0, s));
+
+        while (!q.empty()) {
+            int t, d;
+            tie(d, t) = q.top(); q.pop();
+
+            if (vis[t]) continue;
+            vis[t] = true;
+
+            FORE (p, E[t]) {
+                ll next = p.first, c = p.second;
+                if (vis[next]) continue;
+                if (dis[t] + c < dis[next]) {
+                    dis[next] = dis[t] + c;
+                    q.push(ii(dis[next], next));
+                } else if (dis[t] + c == dis[next]) {
+                }
+            }
         }
-    }
-}
-
-int main() {
-    cin >> N >> M;
-    REP (i, M) {
-        int a, b, t;
-        cin >> a >> b >> t;
-        a--; b--;
-        G[a].push_back(make_pair(b, t));
-        G[b].push_back(make_pair(a, t));
+        return dis;
     }
 
-    int ans = INF;
-    REP (s, N) {
-        dijkstra(s);
-        int res = -1;
-        REP (t, N) res = max(res, dist[t]);
-        ans = min(ans, res);
+    pair<vi, vector<modint>> solve_(int s) {
+        vi dis(N, INF);
+        vector<modint> pat(N, modint(0));
+        vector<bool> vis(N);
+        dis[s] = 0;
+        pat[s] = modint(1);
+
+        min_priority_queue<ii> q;
+        q.push(ii(0, s));
+
+        while (!q.empty()) {
+            int t, d;
+            tie(d, t) = q.top(); q.pop();
+
+            if (vis[t]) continue;
+            vis[t] = true;
+
+            FORE (p, E[t]) {
+                ll next = p.first, c = p.second;
+                if (vis[next]) continue;
+                if (dis[t] + c < dis[next]) {
+                    dis[next] = dis[t] + c;
+                    pat[next] = pat[t];
+                    q.push(ii(dis[next], next));
+                } else if (dis[t] + c == dis[next]) {
+                    pat[next] += pat[t];
+                }
+            }
+        }
+        return make_pair(dis, pat);
     }
-
-    cout << ans << endl;
-
-    return 0;
-}
+};
