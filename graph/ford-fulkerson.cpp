@@ -1,80 +1,60 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
+#define REP(i,n) for (ll i = 0; i < n; ++i)
+#define ALL(v) v.begin(), v.end()
 
-#define REP(i, n) for (ll i = 0; i < (n); ++i)
+template<typename T, bool directed, T inf> class FordFulkerson {
+private:
+    struct Edge {
+        int to; T cap; int rev;
+        Edge(int to, T cap, int rev) : to(to), cap(cap), rev(rev) {}
+    };
 
-const ll INF = 1e18;
-const int MAX = 1e5;
+    vector<vector<Edge>> G;
+    vector<bool> used;
 
-template<typename A, size_t N, typename T>
-void Fill(A (&array)[N], const T &val){
-    fill( (T*)array, (T*)(array+N), val );
-}
+    void init(int n) {
+        G = vector<vector<Edge>>(n);
+        used = vector<bool>(n);
+    }
 
-struct Edge {
-    int to;  // 辺の行き先
-    ll cap; // 辺の容量 
-    int rev; // G[e.to][e,rev]は逆辺の構造体にアクセスする
-};
+    T dfs(int s, int t, T f) {
+        if (s == t) return f;
 
-vector<Edge> G[MAX];
-bool used[MAX];
-
-void add_edge(int from, int to, ll cap) { // from-to間の流量をcapで設定、お互いにアクセス可能にする
-    Edge e1, e2;
-    e1.to = to; e1.cap = cap; e1.rev = (int)(G[to].size()); 
-    e2.to = from; e2.cap = cap; e2.rev = (int)(G[from].size()); // 有向グラフにする時はe2.cap=0にする
-    G[from].push_back(e1);
-    G[to].push_back(e2);
-}
-
-ll dfs(int s, int t, ll f) { // sからtへ行くルートの最大流量、これ以上ルートがないとき0
-    if (s == t) return f;
-
-    used[s] = true;
-    REP (i, G[s].size()) {
-        Edge& e = G[s][i];
-        if (!used[e.to] && e.cap > 0) {
-            int d = dfs(e.to, t, min(f, e.cap));
-            if (d > 0) {
+        used[s] = true;
+        REP (i, G[s].size()) {
+            Edge &e = G[s][i];
+            if (!used[e.to] && e.cap > T(0)) {
+                T d = dfs(e.to, t, min(f, e.cap));
+                if (d == T(0)) continue;
                 e.cap -= d;
                 G[e.to][e.rev].cap += d;
                 return d;
             }
         }
+
+        return T(0);
     }
 
-    return 0;
-}
+public:
+    FordFulkerson() {}
+    FordFulkerson(int n) { init(n); }
 
-ll ford_fulkerson(int s, int t) { // sからtへの最大流量を返す
-    ll flow = 0;
-    while (1) {
-        Fill(used, false);
-        int f = dfs(s, t, INF);
-        if (f == 0) return flow;
-        flow += f;
-    }
-}
-
-int N, M;
-
-int main() {
-    cin >> N >> M;
-
-    REP (i, M) {
-        int a, b;
-        cin >> a >> b;
-        add_edge(a, b, 1);
+    void add(int from, int to, T cap) {
+        if (!cap) return;
+        G[from].push_back(Edge(to, cap, G[to].size()));
+        G[to].push_back(Edge(from, (directed ? 0 : cap), G[from].size()-1));
     }
 
-    ll ans = ford_fulkerson(0, N-1);
-    cout << ans << endl;
-
-    return 0;
-}
+    T solve(int s, int t) {
+        T ret(0);
+        while (1) {
+            fill(ALL(used), false);
+            T f = dfs(s, t, inf);
+            if (f == 0) return ret;
+            ret += f;
+        }
+    }
+};
