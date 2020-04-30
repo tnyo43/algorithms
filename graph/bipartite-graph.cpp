@@ -1,70 +1,85 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
-
-typedef vector<int> vi;
-typedef vector<vi> vvi;
-
-#define REP(i,n) for (int i = 0; i < n; ++i)
-#define FORE(x,xs) for (auto &x: xs)
-
-const int MAX = 1e5+10;
-
-int N, M;
-int color[MAX];
-int white;
-vi G[MAX];
-
-bool dfs(int u, int p, int c) {
-    /*
-     * u：注目しているノード
-     * p：注目しているノードに来る前のところ。重複を防ぐため
-     * c：注目しているノードの色
-     *
-     * 戻り値<bool>：二部グラフかどうかを返す
-     */
-    color[u] = c;
-    if (c == 1) white++;
-    FORE (v, G[u]) if (v != p) {
-        if (color[v] == -1) { // 色がまだ決まってないなら
-        if (!dfs(v, u, 1-c)) return false;
-        } else if (color[v] != 1-c) { // 隣接するノードの色が同じなら
-        return false;
+ 
+typedef long long ll;
+typedef vector<ll> vi;
+#define REP(i,n) for (ll i = 0; i < n; ++i)
+ 
+struct UnionFind {
+private:
+    int N;
+    vi parent;
+    vi rank_;
+ 
+    void init(int n) {
+        N = n;
+        parent.resize(0); parent.clear(); parent.resize(n);
+        REP (i, N) parent[i] = i;
+        rank_.resize(0); rank_.clear(); rank_.resize(n);
+    }
+ 
+public:
+    UnionFind() { init(0); }
+    UnionFind(int n) { init(n); }
+ 
+    int root(int x) {
+        return (parent[x] == x) ? x : parent[x] = root(parent[x]);
+    }
+ 
+    bool isSame(int x, int y) {
+        return root(x) == root(y);
+    }
+ 
+    void merge(int x, int y) {
+        x = root(x);
+        y = root(y);
+        if (x == y) return;
+ 
+        if (rank_[x] < rank_[y])
+            parent[x] = y;
+        else {
+            parent[y] = x;
+            if (rank_[x] == rank_[y]) rank_[x]++;
         }
     }
-    return true;
-}
-
-int BipartiteGraph() {
-    /*
-     * 戻り値<int>：二部グラフなら一方のグループのノード数。二部グラフでないなら-1
-     */
-
-    if (!dfs(0, -1, 0)) return -1;
-    REP (i, N) 
-        if (color[i] == -1) return -1; // 連結でないノードがあるとき
-    return white;
-}
-
-int main() {
-    cin >> N >> M;
-    REP (i, N) color[i] = -1;
-
-    REP (i, M) {
-        int a, b;
-        cin >> a >> b;
-        a--; b--;
-        G[a].push_back(b);
-        G[b].push_back(a);
+};
+ 
+class BipartiteGraph {
+private:
+    int N;
+    UnionFind uf;
+    bool valid;
+ 
+    void init(int n) {
+        N = n;
+        uf = UnionFind(2*N);
+        valid = true;
     }
-
-    int res = BipartiteGraph();
-    if (res == -1) // 二部グラフでないとき
-        cout << 1l*N*(N-1)/2 - M << endl;
-    else
-        cout << 1l*res*(N-res) - M << endl;
-
-    return 0;
-}
+ 
+public:
+    BipartiteGraph() { init(0); }
+    BipartiteGraph(int n) { init(n); }
+ 
+    void add(int u, int v) {
+        uf.merge(u, v+N);
+        uf.merge(u+N, v);
+ 
+        valid &= !(uf.isSame(u, u+N) || uf.isSame(v, v+N));
+    }
+ 
+    bool isValid() {
+        return valid;
+    }
+ 
+    pair<set<int>, set<int>> get() {
+        assert(valid);
+ 
+        set<int> u, v;
+        REP (i, N) {
+            if (uf.isSame(i, 0)) u.insert(i);
+            else v.insert(i);
+        }
+        return make_pair(u, v);
+    }
+};
+ 
