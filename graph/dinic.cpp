@@ -1,112 +1,73 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <string>
-#include <queue>
-#include <stack>
-#include <math.h>
-
+#include <bits/stdc++.h>
 using namespace std;
-
-typedef long long ll;
-typedef long double ld;
-typedef pair<int, int> ii;
-typedef pair<ll, ll> P;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
-
-#define REP(i,n) for (ll i = 0; i < n; ++i)
-#define FOR(i,n,m) for (ll i = n; i < m; ++i)
-#define FORE(x,xs) for (auto &x: xs)
-
-const ll INF = 1e18;
-const int MOD = 1000000007;
-const double EPS = 1e-14;
-const double PI = acos(-1);
-
-const int MAX = 1e5;
-
-template<typename A, size_t N, typename T>
-void Fill(A (&array)[N], const T &val){
-    std::fill( (T*)array, (T*)(array+N), val );
-}
-
-struct Edge {
-    int to;  // 辺の行き先
-    ll cap; // 辺の容量 
-    int rev; // G[e.to][e,rev]は逆辺の構造体にアクセスする
-};
-
-vector<Edge> G[MAX];
-int level[MAX];
-int iter[MAX];
-
-void add_edge(int from, int to, ll cap) { // from-to間の流量をcapで設定、お互いにアクセス可能にする
-    Edge e1, e2;
-    e1.to = to; e1.cap = cap; e1.rev = (int)(G[to].size()); 
-    e2.to = from; e2.cap = 0; e2.rev = (int)(G[from].size());
-    G[from].push_back(e1);
-    G[to].push_back(e2);
-}
-
-void bfs(int s) { // sから他の辺への距離（コストではなく経由するエッジの数）
-    Fill(level, -1);
-    level[s] = 0;
-    queue<int> q;
-    q.push(s);
-    while (!q.empty()) {
-        int x = q.front(); q.pop();
-        FORE (e, G[x]) if (e.cap > 0 && level[e.to] < 0) {
-            level[e.to] = level[x] + 1;
-            q.push(e.to);
+ 
+template<typename T, bool directed, T inf> class Dinic {
+private:
+    struct Edge {
+        int to; T cap; int rev;
+        Edge(int to, T cap, int rev) : to(to), cap(cap), rev(rev) {}
+    };
+ 
+    vector<int> level, iter;
+ 
+    void init(int n) {
+        G = vector<vector<Edge>>(n);
+        level = vector<int>(n);
+        iter = vector<int>(n);
+    }
+ 
+    void bfs(int s) {
+        fill(ALL(level), -1);
+        level[s] = 0;
+        queue<int> que;
+        que.push(s);
+        while (!que.empty()) {
+            int n = que.front(); que.pop();
+            for (auto &&e : G[n]) if (e.cap > T(0) && level[e.to] < 0) {
+                level[e.to] = level[n] + 1;
+                que.push(e.to);
+            }
         }
     }
-}
-
-ll dfs(int s, int t, ll f) { // sからtへ行くルートの最大流量、これ以上ルートがないとき0
-    if (s == t) return f;
-
-    FOR (i, iter[s], G[s].size()) {
-        iter[s] = i;
-        Edge& e = G[s][i];
-        if (e.cap > 0 && level[s] < level[e.to]) {
-            int d = dfs(e.to, t, min(f, e.cap));
-            if (d > 0) {
+ 
+    T dfs(int s, int t, T f) {
+        if (s == t) return f;
+        for (int &i = iter[s]; i < G[s].size(); i++) {
+            Edge& e = G[s][i];
+            if (e.cap > T(0) && level[s] < level[e.to]) {
+                T d = dfs(e.to, t, min(f, e.cap));
+                if (d == T(0)) continue;
                 e.cap -= d;
                 G[e.to][e.rev].cap += d;
                 return d;
             }
         }
+        return T(0);
     }
-
-    return 0;
-}
-
-ll dinic(int s, int t) { // sからtへの最大流量を返す
-    ll flow = 0;
-    while (1) {
-        Fill(iter, 0);
-        bfs(s);
-        if (level[t] == -1) return flow;
-        int f = dfs(s, t, INF);
-        flow += f;
+ 
+public:
+    Dinic() {}
+    Dinic(int n) { init(n); }
+ 
+    vector<vector<Edge>> G;
+    void add(int from, int to, T cap) {
+        if (!cap) return;
+        G[from].push_back(Edge(to, cap, G[to].size()));
+        G[to].push_back(Edge(from, (directed ? 0 : cap), G[from].size()-1));
     }
-}
-
-int N, M;
-
-int main() {
-    cin >> N >> M;
-
-    REP (i, M) {
-        int a, b;
-        cin >> a >> b;
-        add_edge(a, b, 1);
+ 
+    T solve(int s, int t, T lim = inf) {
+        T ret(0);
+        while (1) {
+            bfs(s);
+            if (level[t] < 0 || lim == 0) return ret;
+            fill(ALL(iter), 0);
+            while (1) {
+                T f = dfs(s, t, lim);
+                if (f == T(0)) break;
+                ret += f;
+                lim -= f;
+            }
+        }
     }
-
-    ll ans = dinic(0, N-1);
-    cout << ans << endl;
-
-    return 0;
-}
+};
