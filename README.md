@@ -20,7 +20,7 @@
 
 # Graph
 
-### 最短路
+## 最短路
 - [Warshall Floyd](https://github.com/tnyo43/algorithms/blob/master/graph/warshall-floyd.cpp)
 - [Dijkstra](https://github.com/tnyo43/algorithms/blob/master/graph/dijkstra.cpp)
 - [Bellman Ford](https://github.com/tnyo43/algorithms/blob/master/graph/bellman-ford.cpp)
@@ -32,26 +32,34 @@
 
 ## グラフ理論
 - [二部グラフ判定](https://github.com/tnyo43/algorithms/blob/master/graph/bipartite-graph.cpp)
+- [二部マッチング](https://github.com/tnyo43/algorithms/blob/master/graph/bipartite-matching.cpp)
 - [ループ検出](https://github.com/tnyo43/algorithms/blob/master/graph/floyd-circle-find.cpp)
 
-# 数学問題
-- [階乗、逆元、nCk、nHk](https://github.com/tnyo43/algorithms/blob/master/math/mod.cpp)
-- [フィボナッチ数列](https://github.com/tnyo43/algorithms/blob/master/math/fibonacci.cpp)
-- [スターリング数](https://github.com/tnyo43/algorithms/blob/master/math/stirling-number.cpp)
+## 最小全域木
+- [クラスカル法](https://github.com/tnyo43/algorithms/blob/master/graph/kruskal.cpp)
 
-### 最大公約数・最小公倍数
+# 数学問題
+
+## 最大公約数・最小公倍数
 - [最大公約数](https://github.com/tnyo43/algorithms/blob/master/math/gcd.cpp)
 - [最小公倍数](https://github.com/tnyo43/algorithms/blob/master/math/lcm.cpp)
 - [拡張ユークリッドの互除法](https://github.com/tnyo43/algorithms/blob/master/math/ex-gcd.cpp)
 
-### 素数
+## 素数
+- [modint](https://github.com/tnyo43/algorithms/blob/master/math/modint.cpp)
+- [実行時modint](https://github.com/tnyo43/algorithms/blob/master/math/modint-runtime.cpp)
+- [組み合わせ計算](https://github.com/tnyo43/algorithms/blob/master/math/mod.cpp)
 - [素数判定](https://github.com/tnyo43/algorithms/blob/master/math/is-prime.cpp)
 - [素因数分解](https://github.com/tnyo43/algorithms/blob/master/math/factorization.cpp)
 - [約数](https://github.com/tnyo43/algorithms/blob/master/math/factors.cpp)
 - [エラトステネスの篩](https://github.com/tnyo43/algorithms/blob/master/math/eratosthenes.cpp)
 - [Baby-Step_Giant-Step](https://github.com/tnyo43/algorithms/blob/master/math/baby-step-giant-step.cpp)
 
-#string
+## その他
+- [フィボナッチ数列](https://github.com/tnyo43/algorithms/blob/master/math/fibonacci.cpp)
+- [最大増加部分列](https://github.com/tnyo43/algorithms/blob/master/math/longest-increasing-subsequence.cpp)
+
+# 文字列
 
 - [Suffix Array](https://github.com/tnyo43/algorithms/blob/master/string/suffix-array.cpp)
 - [Manachar](https://github.com/tnyo43/algorithms/blob/master/string/manacher.cpp)
