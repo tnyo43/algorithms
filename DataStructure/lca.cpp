@@ -1,101 +1,104 @@
-#include <iostream>
-#include <vector>
-#include <math.h>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
-typedef pair<int, int> ii;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
+#define REP(i,n) for (int i = 0; i < n; ++i)
+#define REPR(i,n) for (int i = n-1; i >= 0; --i)
+#define FORE(x,xs) for (const auto& x : xs)
 
-#define REP(i,n) for (ll i = 0; i < n; ++i)
-#define REPR(i,n) for (ll i = n - 1; i >= 0; --i)
-#define FOR(i,n,m) for (ll i = n; i < m; ++i)
-#define FORE(x,xs) for (auto &x: xs)
-
-const int MAX = 1e5;
-
-struct LCA{
+enum QUERY_GET { DEFAULT, SUM, MAXIMUM, MINIMUM };
+template<class T = int> struct LCA {
 private:
     int V;
     int logV;
-    int root;
-    vvi G; // 隣接ノード
-    vvi  parent; // parent[k][v] : vが親を2^k会辿って到着する頂点
-
-    void dfs(int v, int p, int d){ // v:ノード、 p:vの親、 d:vの深さ。
-        parent[0][v] = p;
-        depth[v] = d;
-        FORE (next, G[v]) {
-        if (next != p) dfs(next, v, d+1); 
-        } 
-    }
-
-public:
-    vi depth; // 根からの深さ
-
-    LCA(const vvi &g) {
+    vector<vector<pair<int, T>>> G;
+    vector<vector<pair<int, T>>> parent;
+ 
+    T initVal;
+    function<T(T&, T&)> merge;
+    bool isBuilt;
+ 
+    void init(const vector<vector<pair<int, T>>> &g, QUERY_GET qtype) {
         G = g;
         V = g.size();
         logV = log2(V)+1;
-        parent = vvi(logV, vi(V));
-        depth = vi(V);
-        root=0;
-        dfs(root, -1, 0);
-
-        // parentの初期化
+        depth = vector<int>(V);
+ 
+        switch (qtype) {
+        case DEFAULT:
+            initVal = T(0);
+            merge = [](T& l, T& r) { return T(0); };
+            break;
+        case SUM:
+            initVal = T(0);
+            merge = [](T& l, T& r) {return l + r; };
+            break;
+        case MAXIMUM:
+            initVal = numeric_limits<T>::lowest();
+            merge = [](T& l, T& r) {return (l > r) ? l : r; };
+            break;
+        case MINIMUM:
+            initVal = numeric_limits<T>::max();
+            merge = [](T& l, T& r) {return (l < r) ? l : r; };
+            break;
+        }
+ 
+        parent = vector<vector<pair<int, T>>>(V, vector<pair<int, T>>(logV, make_pair(-1, initVal)));
+ 
+        dfs(0, -1, initVal, 0);
         REP (k, logV-1) {
-        REP (v, G.size()) {
-            if (parent[k][v] < 0) parent[k+1][v] = -1;
-            else parent[k+1][v] = parent[k][parent[k][v]];
+            REP (v, V) {
+                if (parent[v][k].first >= 0) {
+                    int p = parent[v][k].first;
+                    parent[v][k+1] = make_pair(parent[p][k].first, merge(parent[v][k].second, parent[p][k].second));
+                }
+            }
         }
-        }
+        isBuilt = true;
     }
-
-    int lca(int u,int v) {
+ 
+    void dfs(int v, int p, T val, int d) {
+        parent[v][0] = make_pair(p, val);
+        depth[v] = d;
+        FORE (next, G[v]) if (next.first != p) dfs(next.first, v, next.second, d+1); 
+    }
+ 
+public:
+    vector<int> depth;
+ 
+    LCA() {}
+    LCA(const vector<vector<int>> &g) {
+        vector<vector<pair<int, T>>> h(g.size());
+        REP (i, g.size()) {
+            h[i] = g[i].size();
+            REP (j, g[i].size()) h[i][j] = make_pair(g[i][j], T(0));
+        }
+        init(h, DEFAULT);
+    }
+    LCA(const vector<vector<pair<int, T>>> &g, QUERY_GET qtype = DEFAULT) { init(g, qtype); }
+ 
+    pair<int, T> solve_(int u, int v) {
+        T ret = initVal;
         if (depth[u] > depth[v]) swap(u, v);
-        REP (k, logV) {
-        if ((depth[v]-depth[u])>>k & 1){
-            v = parent[k][v];
+        REP (k, logV) if ((depth[v]-depth[u])>>k & 1) {
+            ret = merge(ret, parent[v][k].second);
+            v = parent[v][k].first;
         }
+        if (u == v) return make_pair(u, ret);
+ 
+        REPR (k, logV) if (parent[u][k].first != parent[v][k].first) {
+            ret = merge(ret, parent[v][k].second);
+            ret = merge(ret, parent[u][k].second);
+            u = parent[u][k].first;
+            v = parent[v][k].first;
         }
-        if (u==v) return u;
-        REPR (k, logV) {
-        if (parent[k][u] != parent[k][v]) {
-            u = parent[k][u];
-            v = parent[k][v];
-        }
-        }
-        return parent[0][u];
+ 
+        ret = merge(ret, parent[u][0].second);
+        ret = merge(ret, parent[v][0].second);
+ 
+        return make_pair(parent[u][0].first, ret);
     }
-
-    vvi getG(){
-        return G;
+ 
+    int solve (int u, int v) {
+        return solve_(u, v).first;
     }
 };
-
-int main() {
-    int N, Q, x, y;
-    cin >> N;
-    vvi G(N);
-
-    REP (n, N-1) {
-        cin >> x >> y;
-        x--; y--;
-        G[x].push_back(y);
-        G[y].push_back(x);
-    }
-
-    LCA tree = LCA(G);
-
-    cin >> Q;
-    REP (q, Q) {
-        cin >> x >> y;
-        x--; y--;
-        int p = tree.lca(x, y);
-        cout << tree.depth[x]+tree.depth[y]-2*tree.depth[p]+1 << endl;
-    }
-
-    return 0;
-}
