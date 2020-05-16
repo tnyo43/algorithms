@@ -16,7 +16,7 @@
 - [転倒数](https://github.com/tnyo43/algorithms/blob/master/DataStructure/inversion.cpp)
 
 ### Others
-- [LCA](https://github.com/tnyo43/algorithms/blob/master/DataStructure/lca.cpp)
+- [LowestCommonAncestor](https://github.com/tnyo43/algorithms/blob/master/DataStructure/LowestCommonAncestor.cpp)
 
 # Graph
 
