@@ -1,11 +1,10 @@
-#include <iostream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
 
-ll GCD(ll x, ll y) {
+ll gcd(ll x, ll y) {
+    x = abs(x); y = abs(y);
     if (x > y) swap(x, y);
     while (x) {
         ll z = x;
@@ -15,9 +14,7 @@ ll GCD(ll x, ll y) {
     return y;
 }
 
-int main() {
-    ll x, y;
-    cin >> x >> y;
-    cout << GCD(x, y) << endl;
-    return 0;
+ll lcm(ll x, ll y) {
+    ll g = lcm(x, y);
+    return x / g * y;
 }

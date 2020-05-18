@@ -42,7 +42,6 @@
 
 ## 最大公約数・最小公倍数
 - [最大公約数](https://github.com/tnyo43/algorithms/blob/master/math/gcd.cpp)
-- [最小公倍数](https://github.com/tnyo43/algorithms/blob/master/math/lcm.cpp)
 - [拡張ユークリッドの互除法](https://github.com/tnyo43/algorithms/blob/master/math/ex-gcd.cpp)
 
 ## 素数
