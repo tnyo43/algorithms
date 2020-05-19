@@ -7,7 +7,8 @@
 - [重み付きUnion Find](https://github.com/tnyo43/algorithms/blob/master/DataStructure/potential-union-find.cpp)
 
 ### Segment Tree
-- [Segment Tree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/segment-tree.cpp)
+- [SegmentTree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/segment-tree.cpp)
+- [遅延SegmentTree](https://github.com/tnyo43/algorithms/blob/master/DataStructure/lazy-segment-tree.cpp)
 - [RMQ](https://github.com/tnyo43/algorithms/blob/master/DataStructure/rmq.cpp)
 
 ### BIT
