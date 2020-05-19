@@ -1,50 +1,44 @@
-#include <iostream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
+typedef pair<ll, ll> ii;
+typedef vector<ll> vi;
+typedef vector<ii> vii;
+typedef vector<vi> vvi;
+typedef vector<vii> vvii;
+#define REP(i,n) for (ll i = 0; i < n; ++i)
+#define FORE(x,xs) for (const auto& x : xs)
 
-#define REP(i, n) for (ll i = 0; i < (n); ++i)
+const ll INF = 1ll<<61;
 
-const int INF = 1000000009;
-const int MAX = 300; // 最大頂点数
+class WarchallFloyd {
+private:
+    int N;
+    vvii E;
 
-ll N, M; // N:頂点数、M:辺の数
-
-int dist[MAX][MAX]; // dist[j][i]=dist[i][j]はi、j間の最短距離
-
-template<typename A, size_t N, typename T>
-void Fill(A (&array)[N], const T &val){
-    fill( (T*)array, (T*)(array+N), val );
-}
-
-void warshall_floyd() {
-    REP (k, N) REP (j, N) REP (i, N)
-        dist[j][i] = min(dist[j][i], dist[j][k] + dist[k][i]);
-}
-
-int main() {
-    cin >> N >> M;
-    Fill(dist, INF);
-
-    REP (i, N) dist[i][i] = 0;
-    REP (i, M) {
-        int a, b, t;
-        cin >> a >> b >> t;
-        a--; b--;
-        dist[a][b] = dist[b][a] = t;
+    void init(int n) {
+        N = n;
+        E = vvii(n);
     }
 
-    warshall_floyd();
+public:
+    WarchallFloyd() {}
+    WarchallFloyd(int n) { init(n); }
 
-    int ans = INF;
-    REP (j, N) {
-        int res = -1;
-        REP (i, N) res = max(res, dist[j][i]);
-        ans = min(ans, res);
+    void add(int from, int to, ll dist) {
+        E[from].push_back(make_pair(to, dist));
     }
-    cout << ans << endl;
 
-    return 0;
-}
+    vvi solve() {
+        vvi ret(N, vi(N, INF));
+        REP (i, N) FORE (e, E[i]) {
+            ret[i][e.first] = e.second;
+        }
+
+        REP (k, N) REP (j, N) REP (i, N) {
+            ret[j][i] = min(ret[j][i], ret[j][k] + ret[k][i]);
+        }
+        return ret;
+    }
+};
